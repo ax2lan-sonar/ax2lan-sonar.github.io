@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0C36">
+<title>Diagnostic Sauvegarde & Reprise · AX2LAN Sonar</title>
+<link rel="stylesheet" href="../assets/sonar.css">
+</head>
+<body>
+<div class="sonar-fx"></div>
+<div class="app">
+  <div class="top">
+    <img class="brand" src="../assets/logo-ax2lan.svg" alt="AX2LAN">
+    <div class="cible-pill" id="ciblePill">Cible 02</div>
+  </div>
+
+  <!-- 1 · SPLASH -->
+  <section class="screen active mid" id="s-splash">
+    <div class="eyebrow" id="spEyebrow"></div>
+    <h1 class="title" id="spTitle"></h1>
+    <p class="subtitle" id="spSub"></p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnStart">Démarrer le diagnostic →</button>
+    <p class="consent" id="spHint" style="text-align:center;margin-top:12px"></p>
+  </section>
+
+  <!-- 2 · PROFILAGE 1 -->
+  <section class="screen mid" id="s-prof1">
+    <div class="eyebrow">Votre cabinet</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Parlons de votre structure</h1>
+    <div class="fields">
+      <div class="field"><label for="p-cabinet">Nom du cabinet <span style="color:var(--muted);font-weight:500">(facultatif)</span></label>
+        <input id="p-cabinet" type="text" autocomplete="organization" placeholder="Ex. Cabinet Durand & Associés"></div>
+      <div class="ctrl">
+        <div class="ctrl-head"><span class="ctrl-label">Nombre d'utilisateurs</span><span class="ctrl-val" id="p-usersVal">8</span></div>
+        <input type="range" id="p-users" min="1" max="60" step="1" value="8">
+      </div>
+      <div><div class="group-label">Logiciel de production comptable principal</div>
+        <div class="chips" id="p-principal" style="margin-top:8px"></div></div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnProf1">Continuer →</button>
+  </section>
+
+  <!-- 3 · PROFILAGE 2 -->
+  <section class="screen mid" id="s-prof2">
+    <div class="eyebrow">Vos outils</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Logiciels annexes</h1>
+    <p class="subtitle">Sélectionnez ceux que vous utilisez. Cela nous aide à cadrer le besoin d'hébergement.</p>
+    <div id="p-annexes" style="margin-top:4px"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnProf2">Démarrer le diagnostic →</button>
+    <button class="link" id="btnProf2Skip" style="margin:8px auto 0">Passer cette étape</button>
+  </section>
+
+  <!-- 4 · QUIZ -->
+  <section class="screen" id="s-quiz">
+    <div class="step-meta">
+      <span class="back" id="qBack" role="button" tabindex="0" hidden>‹ Précédent</span>
+      <span class="axis-chip" id="qAxis">—</span>
+      <span id="qNum">1 / 15</span>
+    </div>
+    <div class="progress"><i id="qBar"></i></div>
+    <p class="q-text" id="qText">…</p>
+    <div class="answers" id="qAns"></div>
+    <div class="comment" id="qComment"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="qNext" disabled>Question suivante →</button>
+  </section>
+
+  <!-- 5 · LEAD -->
+  <section class="screen mid" id="s-lead">
+    <div class="eyebrow">Dernière étape</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Votre résultat vous attend</h1>
+    <p class="subtitle">Laissez vos coordonnées, puis présentez votre code Sonar à l'équipe : votre niveau s'affichera sur notre écran.</p>
+    <div class="fields">
+      <div class="field"><label for="fn">Prénom</label><input id="fn" type="text" autocomplete="given-name" placeholder="Votre prénom"></div>
+      <div class="field"><label for="ln">Nom</label><input id="ln" type="text" autocomplete="family-name" placeholder="Votre nom"></div>
+      <div class="field"><label for="em">Email professionnel</label><input id="em" type="email" autocomplete="email" inputmode="email" placeholder="vous@cabinet.fr"></div>
+    </div>
+    <p class="err" id="leadErr">Merci de renseigner un email valide.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnLead">Afficher mon code Sonar →</button>
+    <button class="link" id="btnLeadSkip" style="margin:8px auto 0">Passer et afficher mon code</button>
+    <p class="consent" style="margin-top:10px">Vos données servent uniquement à vous recontacter. Aucun mot de passe ni donnée sensible. Conformité RGPD.</p>
+  </section>
+
+  <!-- 6 · QR -->
+  <section class="screen center" id="s-qr">
+    <div class="eyebrow">Diagnostic terminé</div>
+    <h1 class="title" style="font-size:clamp(22px,6.4vw,30px)">Présentez ce code<br>à notre équipe</h1>
+    <div class="qr-card"><div id="qrcode"></div></div>
+    <p class="token" id="tokenTxt">—</p>
+    <p class="hint">Votre score et vos axes de progression s'affichent sur notre écran. Suspense : il reste masqué sur votre téléphone.</p>
+    <div class="pill"><span class="d"></span>En attente du scan AX2LAN</div>
+    <div class="spacer"></div>
+  </section>
+
+  <div class="foot">INNOVE · COMMUNIQUE · CONNECTE<span class="tg">ax2lan.com</span></div>
+</div>
+
+<script src="../assets/sonar-token.js"></script>
+<script src="../assets/qrcode.min.js"></script>
+<script>
+/* ====== CONFIG CIBLE 02 — SAUVEGARDE & REPRISE ====== */
+window.SONAR_CONFIG = {
+  flag: 2, src: "sauvegarde", accentClass: "accent-teal",
+  pill: "Cible 02 · Sauvegarde",
+  docTitle: "Diagnostic Sauvegarde & Reprise · AX2LAN Sonar",
+  leadSubject: "Diagnostic sauvegarde (02)",
+  /* ⚠️ À RENSEIGNER — clé Web3Forms (leads routés vers micha@ax2lan.com). Vide = envoi ignoré, le diag fonctionne. */
+  web3formsKey: "4cf558fd-88f1-4bbc-a77b-e5f049bc5d4e",
+  splash: {
+    eyebrow: "Diagnostic sauvegarde 3-2-1",
+    title: "Une vraie<br><span class=\"hl\">reprise</span>&nbsp;?",
+    subtitle: "En 15 questions, vérifiez si vos sauvegardes vous sauveraient vraiment face à une panne ou un ransomware. Calé sur la règle 3-2-1.",
+    hint: "15 questions · environ 90 secondes · anonyme"
+  },
+  /* questions critiques pondérées ×1.5 : immuabilité (axe2/q2) + test de restauration (axe5/q1) */
+  critical: [[1, 1], [4, 0]],
+  axes: [
+    {name:"Règle 3-2-1", q:[
+      {t:"Au moins 3 copies de vos données (production + 2 sauvegardes) ?", a:[["Oui, 3 copies ou plus",10],["2 copies",5],["1 seule / je ne sais pas",0]], c:"Une seule copie, c'est une panne de disque avant la catastrophe."},
+      {t:"Sur au moins 2 types de supports différents ?", a:[["Oui, 2 supports distincts",10],["Tout sur le même type",5],["Je ne sais pas",0]], c:"Deux supports = un incident matériel ne vous prend pas tout."},
+      {t:"Au moins 1 copie hors site (hors des locaux) ?", a:[["Oui, externalisée chez un hébergeur certifié",10],["Partielle hors site",5],["Tout sur place",0]], c:"Incendie, vol, dégât des eaux : le hors-site sauve le cabinet."}
+    ]},
+    {name:"Décorrélation / Air-gap", q:[
+      {t:"Une copie déconnectée du réseau (amovible / RDX) dans la rotation ?", a:[["Oui, support déconnecté",10],["Anciennement / rarement",5],["Non",0]], c:"Un ransomware ne chiffre que ce qu'il peut atteindre."},
+      {t:"Sauvegarde immuable (non modifiable / non effaçable) ?", a:[["Oui, copie immuable",10],["Sauvegardes en ligne seulement",5],["Non / je ne sais pas",0]], c:"L'immuabilité est le rempart n°1 contre le ransomware moderne."},
+      {t:"Comptes de sauvegarde séparés des comptes courants ?", a:[["Oui, comptes dédiés",10],["Partiellement",5],["Mêmes comptes",0]], c:"Si l'admin est compromis, vos sauvegardes le sont aussi."}
+    ]},
+    {name:"Périmètre couvert", q:[
+      {t:"Comptabilité et GED sauvegardées intégralement ?", a:[["Oui, complet",10],["Partiel",5],["Je ne sais pas",0]], c:"Le cœur du cabinet doit être couvert à 100 %."},
+      {t:"Messagerie incluse dans les sauvegardes ?", a:[["Oui, sauvegarde dédiée",10],["On compte sur l'éditeur (M365…)",5],["Non",0]], c:"Microsoft ne garantit pas la récupération de vos emails : c'est votre responsabilité."},
+      {t:"Applicatifs métier (ACD/iSuite, Sage…) et leurs bases inclus ?", a:[["Oui, bases incluses et cohérentes",10],["Fichiers seuls, sans les bases",5],["Non / je ne sais pas",0]], c:"Sauvegarder les fichiers sans la base applicative = restauration impossible."}
+    ]},
+    {name:"Fréquence & rétention (RPO)", q:[
+      {t:"Sauvegarde au moins quotidienne ?", a:[["Quotidienne ou plus fréquente",10],["Hebdomadaire",5],["Plus rare / je ne sais pas",0]], c:"Votre fréquence = la quantité de travail que vous acceptez de reperdre."},
+      {t:"Plusieurs versions / points de restauration conservés ?", a:[["Oui, plusieurs versions",10],["Une seule version écrasée",5],["Je ne sais pas",0]], c:"Sans historique, vous restaurez une donnée déjà corrompue."},
+      {t:"Durée de rétention définie (≥ 30 jours) ?", a:[["Oui, rétention ≥ 30 j",10],["Quelques jours",5],["Non définie",0]], c:"Un ransomware peut dormir des semaines avant de frapper."}
+    ]},
+    {name:"Test de restauration (RTO)", q:[
+      {t:"Déjà restauré pour de vrai (pas seulement « la sauvegarde a tourné ») ?", a:[["Oui, tests de restauration planifiés",10],["Une fois, il y a longtemps",5],["Jamais",0]], c:"Une sauvegarde jamais testée n'est qu'une promesse."},
+      {t:"Délai de remise en route connu et < 1 jour (RTO) ?", a:[["Oui, RTO défini < 24 h",10],["Idée vague",5],["Inconnu",0]], c:"Le RTO, c'est le nombre d'heures où le cabinet tourne à l'arrêt."},
+      {t:"Supervision (alerte en cas d'échec) + responsable identifié + procédure ?", a:[["Oui, alertes + responsable + procédure",10],["Vérification manuelle",5],["Aucune",0]], c:"Une sauvegarde en échec silencieux, c'est zéro sauvegarde."}
+    ]}
+  ]
+};
+</script>
+<script src="../assets/sonar-diag.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
+  <script src="../assets/a11y.js"></script>
+</body>
+</html>

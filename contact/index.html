@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0C36">
+<title>Contact · AX2LAN Sonar</title>
+<link rel="stylesheet" href="../assets/sonar.css">
+</head>
+<body class="accent-violet">
+<div class="sonar-fx"></div>
+<div class="app">
+  <div class="top">
+    <img class="brand" src="../assets/logo-ax2lan.svg" alt="AX2LAN">
+    <div class="cible-pill">Cible 04</div>
+  </div>
+
+  <section class="screen active">
+    <div class="eyebrow">Restons en contact</div>
+    <h1 class="title">AX2LAN<br>dans votre <span class="hl">poche</span>.</h1>
+    <p class="subtitle">Ajoutez notre carte, récupérez les liens utiles, et reprenons le sujet calmement après le salon.</p>
+
+    <div class="card" style="text-align:center;margin-top:6px">
+      <div style="width:84px;height:84px;margin:0 auto 16px;border-radius:22px;background:#fff;display:grid;place-items:center;overflow:hidden">
+        <img src="../assets/logo-ax2lan.svg" alt="AX2LAN" style="width:78%;height:78%;object-fit:contain">
+      </div>
+      <div style="font-size:23px;font-weight:800">Laurent Duval</div>
+      <div style="font-size:13.5px;color:var(--ice);font-weight:600;margin-top:4px;line-height:1.4">Directeur Commercial · AX2LAN<br>Hébergement &amp; infogérance pour cabinets d'expertise comptable</div>
+      <div class="chips" style="justify-content:center;margin-top:16px">
+        <span class="chip" style="cursor:default">ACD / iSuite</span><span class="chip" style="cursor:default">RDS</span><span class="chip" style="cursor:default">Sauvegarde</span><span class="chip" style="cursor:default">Cybersécurité</span>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
+      <a class="btn btn-primary" id="vcard" href="Laurent_Duval_Ax2lan.vcf" download="Laurent_Duval_Ax2lan.vcf">Ajouter à mes contacts →</a>
+      <div class="btn-row">
+        <a class="btn btn-light" href="tel:+33642336200">Appeler</a>
+        <a class="btn btn-light" id="mail" href="mailto:laurent.duval@ax2lan.com?subject=Suite%20%C3%A9change%20Campus%202026">Email</a>
+      </div>
+      <a class="btn btn-ghost" id="brochure" href="#" target="_blank" rel="noopener">Voir la plaquette AX2LAN</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/laurent-duval-81b01514/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <p class="consent" style="text-align:center;margin-top:14px">Le lien plaquette est à renseigner (constante <b>brochureUrl</b>) avant le déploiement final.</p>
+  </section>
+
+  <div class="foot">INNOVE · COMMUNIQUE · CONNECTE<span class="tg">5 av. de la Créativité · 59650 Villeneuve-d'Ascq</span></div>
+</div>
+<div class="toast" id="toast">vCard ajoutée</div>
+
+<script>
+/* ⚠️ À RENSEIGNER avant le salon : lien plaquette commerciale AX2LAN. */
+const brochureUrl = "https://example.com/plaquette-a-remplacer";
+document.getElementById('brochure').href = brochureUrl;
+
+/* La vCard officielle (../contact/Laurent_Duval_Ax2lan.vcf) est servie telle quelle (fidélité maximale).
+   Repli : si le navigateur bloque le download direct du fichier, on régénère une vCard identique en mémoire. */
+const VCARD = ['BEGIN:VCARD','VERSION:3.0','N:Duval;Laurent;;;','FN:Laurent Duval','ORG:Ax2lan','TITLE:Directeur Commercial',
+ 'TEL;TYPE=CELL,VOICE:+33 6 42 33 62 00','TEL;TYPE=WORK,VOICE:+33 3 20 56 07 36',
+ 'EMAIL;TYPE=INTERNET,WORK,PREF:laurent.duval@ax2lan.com','URL;TYPE=WORK:https://www.ax2lan.com',
+ 'ADR;TYPE=WORK:;;5 avenue de la Créativité;Villeneuve d\'Ascq;;59650;France',
+ 'NOTE:Rencontré sur le stand AX2LAN · Dispositif Sonar · Campus 2026','END:VCARD'].join('\r\n');
+document.getElementById('vcard').addEventListener('click', function(e){
+  // Si le fichier .vcf est accessible, le lien <a download> fait le travail.
+  // Sur file:// ou en cas de blocage, on bascule sur le blob de secours.
+  if(location.protocol==='file:'){
+    e.preventDefault();
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([VCARD],{type:'text/vcard;charset=utf-8'}));
+    a.download='Laurent_Duval_Ax2lan.vcf'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  }
+  const t=document.getElementById('toast'); t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1800);
+});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
+</script>
+  <script src="../assets/a11y.js"></script>
+</body>
+</html>

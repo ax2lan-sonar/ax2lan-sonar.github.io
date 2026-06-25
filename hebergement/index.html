@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0C36">
+<title>Estimateur Hébergement · AX2LAN Sonar</title>
+<link rel="stylesheet" href="../assets/sonar.css">
+</head>
+<body class="accent-blue">
+<div class="sonar-fx"></div>
+<div class="app">
+  <div class="top">
+    <img class="brand" src="../assets/logo-ax2lan.svg" alt="AX2LAN">
+    <div class="cible-pill">Cible 03</div>
+  </div>
+
+  <!-- 1 · SPLASH -->
+  <section class="screen active mid" id="s-splash">
+    <div class="eyebrow">Estimateur hébergement</div>
+    <h1 class="title">Combien coûterait<br>votre <span class="hl">hébergement</span>&nbsp;?</h1>
+    <p class="subtitle">Une estimation claire de votre hébergement sécurisé pour cabinet comptable, en quelques réglages.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnStart">Lancer l'estimation →</button>
+    <p class="consent" style="text-align:center;margin-top:12px">Estimation indicative HT · sans engagement</p>
+  </section>
+
+  <!-- 2 · ESTIMATEUR -->
+  <section class="screen" id="s-est">
+    <div class="eyebrow">Simulateur hébergement</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px);margin:2px 0 4px">Votre configuration</h1>
+
+    <div class="ctrl" style="margin-top:8px">
+      <div class="ctrl-head"><span class="ctrl-label">Nombre d'utilisateurs</span><span class="ctrl-val" id="v-users">8</span></div>
+      <input type="range" id="r-users" min="1" max="60" step="1" value="8">
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="group-label">Bureautique &amp; messagerie Microsoft</div>
+      <div class="answers" id="ms-opts" style="margin-top:8px"></div>
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="group-label">Sauvegarde complémentaire au cabinet (NAS)</div>
+      <div class="seg" id="seg-nas" style="margin-top:8px">
+        <button type="button" data-v="0" class="sel">Non</button>
+        <button type="button" data-v="1">Oui<small>investissement one-time</small></button>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="group-label">Sauvegarde décorrélée du réseau (air-gap)</div>
+      <div class="seg" id="seg-air" style="margin-top:8px">
+        <button type="button" data-v="0" class="sel">Non</button>
+        <button type="button" data-v="1">Oui<small>+ forfait mensuel</small></button>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <div class="group-label">Firewall pour liaison cabinet ↔ Data Center</div>
+      <div class="seg" id="seg-fw" style="margin-top:8px">
+        <button type="button" data-v="1" class="sel">Oui, déjà équipé</button>
+        <button type="button" data-v="0">Non / je ne sais pas</button>
+      </div>
+      <p class="note" id="fw-note" style="text-align:left;margin-top:8px;display:none">AX2LAN peut fournir le firewall et la liaison VPN sécurisée — chiffré au devis détaillé.</p>
+    </div>
+
+    <!-- RÉSULTAT -->
+    <div class="result" style="margin-top:22px">
+      <div class="lab">VOTRE HÉBERGEMENT SÉCURISÉ</div>
+      <div class="big">à partir de <span id="r-price">—</span><small style="display:block;color:var(--accent);font-weight:800;line-height:1.25;margin-top:2px;white-space:nowrap">€ par mois hors-taxes</small></div>
+      <div class="rng">estimation indicative — devis personnalisé établi par AX2LAN</div>
+      <div class="breakdown" id="r-break"></div>
+    </div>
+
+    <!-- INVESTISSEMENT ONE-TIME (NAS), affiché séparément -->
+    <div class="card" id="nas-box" style="margin-top:14px;display:none">
+      <div class="group-label" style="margin:0">Investissement initial (one-time, HT)</div>
+      <div class="breakdown" id="nas-break" style="margin-top:10px"></div>
+    </div>
+
+    <p class="note" style="margin-top:14px">Tarifs HT, hors frais de mise en service. Récurrent mensuel et investissement initial affichés séparément. Un devis personnalisé est établi après échange sur vos besoins réels.</p>
+
+    <div style="margin-top:18px"><button class="btn btn-primary" id="btnToLead">Mon offre par mail →</button></div>
+  </section>
+
+  <!-- 3 · LEAD -->
+  <section class="screen mid" id="s-lead">
+    <div class="eyebrow">Estimation détaillée</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Recevez le détail par email</h1>
+    <p class="subtitle">Votre configuration et nos préconisations, transmises par notre équipe.</p>
+    <div class="fields">
+      <div class="field"><label for="f-cab">Nom du cabinet <span style="color:var(--muted);font-weight:500">(facultatif)</span></label><input id="f-cab" type="text" autocomplete="organization" placeholder="Votre cabinet"></div>
+      <div class="field"><label for="fn">Prénom</label><input id="fn" type="text" autocomplete="given-name" placeholder="Votre prénom"></div>
+      <div class="field"><label for="ln">Nom</label><input id="ln" type="text" autocomplete="family-name" placeholder="Votre nom"></div>
+      <div class="field"><label for="em">Email professionnel</label><input id="em" type="email" inputmode="email" autocomplete="email" placeholder="vous@cabinet.fr"></div>
+    </div>
+    <p class="err" id="leadErr">Merci de renseigner un email valide.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnSend">Envoyer ma demande →</button>
+    <button class="link" id="btnBack" style="margin:8px auto 0">Revenir à l'estimation</button>
+    <p class="consent" style="margin-top:10px">Vos données servent uniquement à vous transmettre votre estimation. Aucune donnée sensible. Conformité RGPD.</p>
+  </section>
+
+  <!-- 4 · DONE -->
+  <section class="screen center" id="s-done">
+    <div class="card" style="margin-top:6vh;text-align:center">
+      <div style="width:74px;height:74px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:rgba(63,185,121,.16);border:2px solid var(--green)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3FB979" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h1 class="title" style="font-size:clamp(24px,7vw,32px)">C'est envoyé&nbsp;!</h1>
+      <p class="subtitle" style="margin:10px auto 0;max-width:30ch">Notre équipe vous transmet votre estimation détaillée. À très vite sur le stand AX2LAN.</p>
+    </div>
+    <div class="spacer"></div>
+  </section>
+
+  <div class="foot">INNOVE · COMMUNIQUE · CONNECTE<span class="tg">ax2lan.com</span></div>
+</div>
+<div class="toast" id="toast">Estimation envoyée</div>
+
+<script>
+/* =======================================================================
+   GRILLE TARIFAIRE — source : _brief/TARIFS-hebergement-Sonar.md
+   (5 devis réels DE004193→97). Reproduit les totaux au centime.
+   ======================================================================= */
+const SOCLE_USER = 75.00;          // €/user/mois (CAL User+RDS + stockage 50Go + sauvegarde locale + maintenance H+4)
+const VEEAM_VM   = 12.42;          // €/VM/mois
+const IP_FIXE    = 22.00;          // €/mois (2×11)
+const SSL        = 24.00;          // €/mois (2×12)
+
+/* Option Microsoft — prix de liste HT, engagement annuel.
+   ⚠️ Hausse Microsoft au 01/07/2026 : Basic 5,60→6,50. Le congrès (25/06) est AVANT la hausse → tarif courant 5,60.
+   Pour basculer après le 01/07/2026, mettre MS_APRES_HAUSSE = true. */
+const MS_APRES_HAUSSE = false;
+const MS_OPTIONS = [
+  {id:"none",    name:"Aucune",                      desc:"le cabinet gère ses propres licences",                         pu:0},
+  {id:"office",  name:"Office traditionnel (serveur)",desc:"Office bureau perpétuel sur le RDS, sans cloud",               pu:10.00},
+  {id:"exch",    name:"Exchange Online seul",         desc:"messagerie 50 Go + agenda, sans Office ni Teams",              pu:3.70},
+  {id:"basic",   name:"M365 Business Basic",          desc:"Exchange + Teams + OneDrive + Office web (pas de bureau)",     pu: MS_APRES_HAUSSE ? 6.50 : 5.60},
+  {id:"premium", name:"M365 Business Premium",        desc:"Office bureau complet + Teams + sécurité avancée (Defender…)", pu:20.60}
+];
+
+/* ⚠️ À RENSEIGNER — clé Web3Forms (leads routés vers micha@ax2lan.com). Vide = envoi ignoré. */
+const WEB3FORMS_KEY = "4cf558fd-88f1-4bbc-a77b-e5f049bc5d4e";
+const SRC = "hebergement";
+
+/* ---- État ---- */
+let users = 8, msIdx = 0, nas = 0, air = 0, fw = 1;
+const $ = s => document.querySelector(s);
+function show(id){ document.querySelectorAll('.screen').forEach(e=>e.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0); }
+
+/* nb de VM par bandes (TARIFS §B) */
+function nbVM(N){ if(N<=5) return 3; if(N<=20) return 5; if(N<=30) return 6; return 6 + Math.ceil((N-30)/10); }
+function eur(x){ return x.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function calc(){
+  const N = users;
+  const socle = SOCLE_USER * N;
+  const veeam = VEEAM_VM * nbVM(N);
+  const ipssl = IP_FIXE + SSL;                 // 46,00
+  const ms = MS_OPTIONS[msIdx].pu * N;
+  const decorrelee = air ? 60 * Math.ceil(N/10) : 0;
+  const recurrent = socle + veeam + ipssl + ms + decorrelee;
+  const investNas = nas ? (1500 + 500 * (Math.ceil(N/10) - 1) + 220) : 0;
+  return {N, socle, veeam, vm:nbVM(N), ipssl, ms, decorrelee, recurrent, investNas};
+}
+function row(label, val, box){ box.insertAdjacentHTML('beforeend', '<div class="brow"><span>'+label+'</span><b>'+val+'</b></div>'); }
+
+function recalc(){
+  const c = calc();
+  $('#v-users').textContent = c.N;
+  const r = $('#r-users'); r.style.setProperty('--fill', ((c.N - r.min)/(r.max - r.min)*100)+'%');
+  $('#r-price').textContent = eur(c.recurrent);
+
+  const bd = $('#r-break'); bd.innerHTML='';
+  row(c.N+" utilisateur"+(c.N>1?"s":"")+" × 75 €", eur(c.socle)+" €", bd);
+  row("Sauvegarde Veeam · "+c.vm+" VM", eur(c.veeam)+" €", bd);
+  row("IP fixe + certificat SSL", eur(c.ipssl)+" €", bd);
+  if(c.ms>0) row("Microsoft · "+MS_OPTIONS[msIdx].name, eur(c.ms)+" €", bd);
+  if(c.decorrelee>0) row("Sauvegarde décorrélée (air-gap)", eur(c.decorrelee)+" €", bd);
+  bd.insertAdjacentHTML('beforeend','<div class="brow tot"><span>Récurrent mensuel HT</span><b>'+eur(c.recurrent)+' €</b></div>');
+
+  const nasBox = $('#nas-box');
+  if(c.investNas>0){
+    nasBox.style.display='block';
+    const nb = $('#nas-break'); nb.innerHTML='';
+    row("NAS au cabinet · matériel", eur(1500 + 500*(Math.ceil(c.N/10)-1))+" €", nb);
+    row("Installation (forfait)", "220,00 €", nb);
+    nb.insertAdjacentHTML('beforeend','<div class="brow tot"><span>Investissement initial HT</span><b>'+eur(c.investNas)+' €</b></div>');
+  } else { nasBox.style.display='none'; }
+
+  $('#fw-note').style.display = fw ? 'none' : 'block';
+}
+
+/* ---- Construction des options MS ---- */
+function buildMs(){
+  const box = $('#ms-opts'); box.innerHTML='';
+  MS_OPTIONS.forEach((o,i)=>{
+    const b=document.createElement('button'); b.type='button';
+    b.className='answer opt'+(i===msIdx?' sel':'');
+    b.innerHTML='<span class="dot"></span><span class="opt-main"><span class="opt-name">'+o.name+'</span><span class="opt-desc">'+o.desc+'</span></span>'
+      +'<span class="opt-price">'+(o.pu?('+'+eur(o.pu)+'&nbsp;€'):'incluse')+'</span>';
+    b.onclick=()=>{ msIdx=i; box.querySelectorAll('.answer').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); recalc(); };
+    box.appendChild(b);
+  });
+}
+function bindSeg(id, setter){
+  document.querySelectorAll('#'+id+' button').forEach(b=>{
+    b.onclick=()=>{ document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); setter(+b.dataset.v); recalc(); };
+  });
+}
+
+function sendLead(){
+  const cab=$('#f-cab').value.trim(), fn=$('#fn').value.trim(), ln=$('#ln').value.trim(), em=$('#em').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ $('#leadErr').classList.add('on'); $('#em').focus(); return; }
+  $('#leadErr').classList.remove('on');
+  const c=calc();
+  if(WEB3FORMS_KEY && WEB3FORMS_KEY!=="VOTRE_CLE_WEB3FORMS_ICI"){
+    fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+      body:JSON.stringify({access_key:WEB3FORMS_KEY, subject:"Estimation hébergement (Sonar 03)", from_name:"Estimateur Sonar AX2LAN",
+        src:SRC, cabinet:cab, prenom:fn, nom:ln, email:em,
+        utilisateurs:c.N, option_microsoft:MS_OPTIONS[msIdx].name,
+        nas_cabinet: nas?"oui":"non", sauvegarde_decorrelee: air?"oui":"non", firewall_vpn: fw?"oui":"non",
+        recurrent_mensuel_ht: eur(c.recurrent)+" €", investissement_initial_ht: c.investNas?eur(c.investNas)+" €":"—"})}).catch(()=>{});
+  }
+  show('s-done');
+}
+
+/* init */
+$('#btnStart').onclick=()=>show('s-est');
+$('#btnToLead').onclick=()=>show('s-lead');
+$('#btnBack').onclick=()=>show('s-est');
+$('#btnSend').onclick=sendLead;
+$('#r-users').oninput=function(){ users=+this.value; recalc(); };
+bindSeg('seg-nas', v=>nas=v);
+bindSeg('seg-air', v=>air=v);
+bindSeg('seg-fw',  v=>fw=v);
+buildMs(); recalc();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
+</script>
+  <script src="../assets/a11y.js"></script>
+</body>
+</html>

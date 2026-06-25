@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0C36">
+<title>Diagnostic Cybersécurité · AX2LAN Sonar</title>
+<link rel="stylesheet" href="../assets/sonar.css">
+</head>
+<body>
+<div class="sonar-fx"></div>
+<div class="app">
+  <div class="top">
+    <img class="brand" src="../assets/logo-ax2lan.svg" alt="AX2LAN">
+    <div class="cible-pill" id="ciblePill">Cible 01</div>
+  </div>
+
+  <!-- 1 · SPLASH -->
+  <section class="screen active mid" id="s-splash">
+    <div class="eyebrow" id="spEyebrow"></div>
+    <h1 class="title" id="spTitle"></h1>
+    <p class="subtitle" id="spSub"></p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnStart">Démarrer le diagnostic →</button>
+    <p class="consent" id="spHint" style="text-align:center;margin-top:12px"></p>
+  </section>
+
+  <!-- 2 · PROFILAGE 1 -->
+  <section class="screen mid" id="s-prof1">
+    <div class="eyebrow">Votre cabinet</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Parlons de votre structure</h1>
+    <div class="fields">
+      <div class="field"><label for="p-cabinet">Nom du cabinet <span style="color:var(--muted);font-weight:500">(facultatif)</span></label>
+        <input id="p-cabinet" type="text" autocomplete="organization" placeholder="Ex. Cabinet Durand & Associés"></div>
+      <div class="ctrl">
+        <div class="ctrl-head"><span class="ctrl-label">Nombre d'utilisateurs</span><span class="ctrl-val" id="p-usersVal">8</span></div>
+        <input type="range" id="p-users" min="1" max="60" step="1" value="8">
+      </div>
+      <div><div class="group-label">Logiciel de production comptable principal</div>
+        <div class="chips" id="p-principal" style="margin-top:8px"></div></div>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnProf1">Continuer →</button>
+  </section>
+
+  <!-- 3 · PROFILAGE 2 -->
+  <section class="screen mid" id="s-prof2">
+    <div class="eyebrow">Vos outils</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Logiciels annexes</h1>
+    <p class="subtitle">Sélectionnez ceux que vous utilisez. Cela nous aide à cadrer le besoin d'hébergement.</p>
+    <div id="p-annexes" style="margin-top:4px"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnProf2">Démarrer le diagnostic →</button>
+    <button class="link" id="btnProf2Skip" style="margin:8px auto 0">Passer cette étape</button>
+  </section>
+
+  <!-- 4 · QUIZ -->
+  <section class="screen" id="s-quiz">
+    <div class="step-meta">
+      <span class="back" id="qBack" role="button" tabindex="0" hidden>‹ Précédent</span>
+      <span class="axis-chip" id="qAxis">—</span>
+      <span id="qNum">1 / 15</span>
+    </div>
+    <div class="progress"><i id="qBar"></i></div>
+    <p class="q-text" id="qText">…</p>
+    <div class="answers" id="qAns"></div>
+    <div class="comment" id="qComment"></div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="qNext" disabled>Question suivante →</button>
+  </section>
+
+  <!-- 5 · LEAD -->
+  <section class="screen mid" id="s-lead">
+    <div class="eyebrow">Dernière étape</div>
+    <h1 class="title" style="font-size:clamp(24px,7vw,34px)">Votre résultat vous attend</h1>
+    <p class="subtitle">Laissez vos coordonnées, puis présentez votre code Sonar à l'équipe : votre niveau s'affichera sur notre écran.</p>
+    <div class="fields">
+      <div class="field"><label for="fn">Prénom</label><input id="fn" type="text" autocomplete="given-name" placeholder="Votre prénom"></div>
+      <div class="field"><label for="ln">Nom</label><input id="ln" type="text" autocomplete="family-name" placeholder="Votre nom"></div>
+      <div class="field"><label for="em">Email professionnel</label><input id="em" type="email" autocomplete="email" inputmode="email" placeholder="vous@cabinet.fr"></div>
+    </div>
+    <p class="err" id="leadErr">Merci de renseigner un email valide.</p>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btnLead">Afficher mon code Sonar →</button>
+    <button class="link" id="btnLeadSkip" style="margin:8px auto 0">Passer et afficher mon code</button>
+    <p class="consent" style="margin-top:10px">Vos données servent uniquement à vous recontacter. Aucun mot de passe ni donnée sensible. Conformité RGPD.</p>
+  </section>
+
+  <!-- 6 · QR -->
+  <section class="screen center" id="s-qr">
+    <div class="eyebrow">Diagnostic terminé</div>
+    <h1 class="title" style="font-size:clamp(22px,6.4vw,30px)">Présentez ce code<br>à notre équipe</h1>
+    <div class="qr-card"><div id="qrcode"></div></div>
+    <p class="token" id="tokenTxt">—</p>
+    <p class="hint">Votre score et vos axes de progression s'affichent sur notre écran. Suspense : il reste masqué sur votre téléphone.</p>
+    <div class="pill"><span class="d"></span>En attente du scan AX2LAN</div>
+    <div class="spacer"></div>
+  </section>
+
+  <div class="foot">INNOVE · COMMUNIQUE · CONNECTE<span class="tg">ax2lan.com</span></div>
+</div>
+
+<script src="../assets/sonar-token.js"></script>
+<script src="../assets/qrcode.min.js"></script>
+<script>
+/* ====== CONFIG CIBLE 01 — CYBERSÉCURITÉ ====== */
+window.SONAR_CONFIG = {
+  flag: 1, src: "securite", accentClass: "accent-gold",
+  pill: "Cible 01 · Cyber",
+  docTitle: "Diagnostic Cybersécurité · AX2LAN Sonar",
+  leadSubject: "Diagnostic cyber (01)",
+  /* ⚠️ À RENSEIGNER — clé Web3Forms (leads routés vers micha@ax2lan.com). Vide = envoi ignoré, le diag fonctionne. */
+  web3formsKey: "4cf558fd-88f1-4bbc-a77b-e5f049bc5d4e",
+  splash: {
+    eyebrow: "Diagnostic de résilience cyber",
+    title: "Tiendrait-il <span class=\"hl\">48&nbsp;h</span><br>sans serveur&nbsp;?",
+    subtitle: "En 15 questions, mesurez la résilience de votre cabinet si votre système tombait demain. Calé sur les mesures essentielles de l'ANSSI.",
+    hint: "15 questions · environ 90 secondes · anonyme"
+  },
+  /* questions critiques pondérées ×1.5 : MFA (axe1/q1) + PRA/redondance (axe4/q2) */
+  critical: [[0, 0], [3, 1]],
+  axes: [
+    {name:"Accès & identités", q:[
+      {t:"La double authentification (MFA) est-elle activée sur la messagerie et les accès distants ?", a:[["Oui, messagerie + accès distants",10],["Partiellement",5],["Non / je ne sais pas",0]], c:"Le MFA bloque l'écrasante majorité des intrusions par mot de passe volé."},
+      {t:"Comptes nominatifs (chacun le sien) et mots de passe forts ?", a:[["Nominatifs + gestionnaire, mots de passe uniques ≥ 12 car.",10],["Nominatifs mais mots de passe libres",5],["Comptes ou mots de passe partagés",0]], c:"Un compte partagé, c'est zéro traçabilité le jour d'un incident."},
+      {t:"Les accès sont-ils révoqués le jour du départ d'un collaborateur ?", a:[["Oui, le jour même",10],["Oui, avec un délai",5],["Pas de procédure",0]], c:"Un ancien accès actif est une porte ouverte sur le secret professionnel."}
+    ]},
+    {name:"Postes & mises à jour", q:[
+      {t:"Antivirus / EDR à jour et supervisé sur tous les postes ?", a:[["Tous les postes + supervision",10],["Oui, sans supervision",5],["Partiel / aucun",0]], c:"Sans supervision, une alerte passe inaperçue jusqu'au chiffrement."},
+      {t:"Mises à jour Windows et applicatifs appliquées rapidement (sous 30 j) ?", a:[["Automatiques et rapides",10],["Manuelles, ponctuelles",5],["Rarement",0]], c:"La majorité des attaques exploitent une faille déjà corrigée."},
+      {t:"Navigation et messagerie sur des comptes sans droits administrateur ?", a:[["Oui, comptes admin séparés",10],["En partie",5],["Admin au quotidien",0]], c:"Travailler en admin, c'est donner les pleins pouvoirs au moindre clic piégé."}
+    ]},
+    {name:"Messagerie & vigilance", q:[
+      {t:"Filtrage de la messagerie (anti-spam / anti-phishing dédié) ?", a:[["Oui, solution dédiée",10],["Filtre basique du fournisseur",5],["Aucun",0]], c:"85 % des attaques arrivent par email."},
+      {t:"Procédure de vérification avant tout virement ou changement de RIB ?", a:[["Oui, double validation systématique",10],["Vérification informelle",5],["Aucune",0]], c:"La fraude au RIB et au président cible directement les cabinets."},
+      {t:"Collaborateurs sensibilisés au phishing (au moins 1×/an) ?", a:[["Régulière + simulations",10],["Une fois, ponctuelle",5],["Jamais",0]], c:"Le collaborateur informé est votre premier pare-feu."}
+    ]},
+    {name:"Continuité & dépendance serveur", q:[
+      {t:"Accès distants sécurisés (VPN ou RDS chiffré + MFA) ?", a:[["VPN / RDS chiffré + MFA",10],["Accès simple, sans renfort",5],["Ouverts / je ne sais pas",0]], c:"Un accès distant non chiffré expose toute la production."},
+      {t:"Hébergement redondé / PRA en place si le serveur tombe ?", a:[["Oui, hébergement redondé + PRA",10],["Sauvegardes, mais pas de plan formalisé",5],["Aucun plan",0]], c:"Sans PRA, une panne serveur = cabinet à l'arrêt, durée inconnue."},
+      {t:"Sauriez-vous travailler en mode dégradé plus de 4 h sans le serveur ?", a:[["Oui, procédure connue",10],["Quelques heures, dans la douleur",5],["Non, arrêt total",0]], c:"La dépendance au serveur se mesure en heures de chiffre d'affaires perdu."}
+    ]},
+    {name:"Gouvernance & réaction", q:[
+      {t:"Plan de réaction en cas d'incident (qui fait quoi, qui appeler) ?", a:[["Oui, formalisé + prestataire identifié",10],["Idée générale",5],["Aucun",0]], c:"Les premières heures décident de l'ampleur des dégâts."},
+      {t:"Cyber-assurance souscrite ?", a:[["Oui",10],["En réflexion",5],["Non",0]], c:"L'assurance couvre la remédiation et la perte d'exploitation."},
+      {t:"Inventaire à jour des équipements / logiciels et registre RGPD ?", a:[["Oui, inventaire + registre à jour",10],["Partiel",5],["Aucun",0]], c:"On ne protège que ce que l'on a recensé."}
+    ]}
+  ]
+};
+</script>
+<script src="../assets/sonar-diag.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}</script>
+  <script src="../assets/a11y.js"></script>
+</body>
+</html>
