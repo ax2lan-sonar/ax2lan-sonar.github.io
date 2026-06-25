@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B0C36">
+<title>Dispositif Sonar - AX2LAN</title>
+<meta name="description" content="Diagnostics interactifs AX2LAN : sécurité, sauvegarde, hébergement, contact.">
+<link rel="stylesheet" href="assets/sonar.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{min-height:100vh;font-family:var(--font);color:var(--white);background:radial-gradient(130% 90% at 50% -12%,var(--navy3) 0%,var(--navy) 55%,#06071c 100%);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.hub-bg{position:fixed;inset:0;z-index:0;background:url('assets/bg-sonar.jpg') center/cover no-repeat;opacity:.26;pointer-events:none}
+.hub{position:relative;z-index:2;max-width:880px;margin:0 auto;padding:clamp(30px,7vw,64px) clamp(20px,5vw,40px);min-height:100vh;display:flex;flex-direction:column}
+.head{text-align:center;margin-bottom:clamp(26px,5vw,46px)}
+.head .logo{height:40px;width:auto;margin-bottom:20px}
+.head .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.head h1{font-size:clamp(28px,6vw,46px);font-weight:800;letter-spacing:-.02em;margin:0 0 12px;line-height:1.05}
+.head p{max-width:540px;margin:0 auto;color:var(--muted);font-size:clamp(15px,2.3vw,17px);font-weight:500;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:660px){.grid{grid-template-columns:1fr 1fr}}
+.card{display:flex;align-items:center;gap:18px;padding:20px 22px;border-radius:var(--r-lg);background:var(--glass);border:1px solid var(--line);text-decoration:none;color:inherit;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.card:hover{transform:translateY(-2px);border-color:var(--c);background:rgba(255,255,255,.09)}
+.card:active{transform:translateY(0)}
+.card .num{flex:0 0 auto;width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-weight:800;font-size:21px;color:#0B0C36;background:var(--c);box-shadow:0 10px 26px -12px var(--c)}
+.card .txt{flex:1;min-width:0}
+.card .txt b{display:block;font-size:17.5px;font-weight:700;margin-bottom:3px}
+.card .txt span{display:block;color:var(--muted);font-size:13px;font-weight:500;line-height:1.4}
+.card .arr{flex:0 0 auto;color:var(--c);font-size:22px;font-weight:800;opacity:.9}
+.card.gold{--c:var(--gold)}.card.teal{--c:var(--teal)}.card.blue{--c:var(--blue)}.card.violet{--c:var(--violet)}
+.foot{margin-top:auto;padding-top:34px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:500;line-height:1.6}
+.foot b{color:var(--ice);font-weight:700}
+</style>
+</head>
+<body>
+<div class="hub-bg"></div>
+<main class="hub">
+  <header class="head">
+    <img class="logo" src="assets/logo-ax2lan.svg" alt="AX2LAN">
+    <div class="kicker">Congrès Campus 2026 · Stand n°19</div>
+    <h1>Dispositif Sonar</h1>
+    <p>Diagnostics interactifs pour cabinets comptables. Choisissez un module.</p>
+  </header>
+  <nav class="grid">
+    <a class="card gold" href="securite/">
+      <div class="num">01</div>
+      <div class="txt"><b>Sécurité</b><span>Diagnostic cybersécurité du cabinet</span></div>
+      <div class="arr">&#8594;</div>
+    </a>
+    <a class="card teal" href="sauvegarde/">
+      <div class="num">02</div>
+      <div class="txt"><b>Sauvegarde</b><span>Résilience &amp; anti-ransomware (3-2-1)</span></div>
+      <div class="arr">&#8594;</div>
+    </a>
+    <a class="card blue" href="hebergement/">
+      <div class="num">03</div>
+      <div class="txt"><b>Hébergement</b><span>Estimation de votre infrastructure</span></div>
+      <div class="arr">&#8594;</div>
+    </a>
+    <a class="card violet" href="contact/">
+      <div class="num">04</div>
+      <div class="txt"><b>Contact</b><span>Carte de visite &amp; prise de contact</span></div>
+      <div class="arr">&#8594;</div>
+    </a>
+  </nav>
+  <footer class="foot">
+    <b>AX2LAN</b> - Hébergement sécurisé &amp; cybersécurité pour cabinets comptables<br>
+    Écosystème ACD · iSuite Expert
+  </footer>
+</main>
+</body>
+</html>
